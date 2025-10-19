@@ -1,4 +1,3 @@
-
 import { Product, Order, CustomUser, CartItem, Review } from '../types';
 
 const mockProducts: Product[] = [
@@ -61,6 +60,66 @@ const mockProducts: Product[] = [
     stock_quantity: 60,
     category: 'Peripherals',
     image: 'https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=600&auto=format&fit=crop',
+  },
+  {
+    id: '7',
+    slug: 'pulsar-tablet',
+    name: 'Pulsar Tablet',
+    description: 'Your digital canvas. Perfect for work, play, and creativity on the go with a vibrant 11-inch display.',
+    price: 429.99,
+    stock_quantity: 35,
+    category: 'Tablets',
+    image: 'https://images.unsplash.com/photo-1561154464-82e9adf32764?w=600&auto=format&fit=crop'
+  },
+  {
+    id: '8',
+    slug: 'odyssey-gaming-console',
+    name: 'Odyssey Gaming Console',
+    description: 'Next-generation gaming with lightning-fast load times and breathtaking 8K visuals.',
+    price: 499.00,
+    stock_quantity: 20,
+    category: 'Gaming',
+    image: 'https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=600&auto=format&fit=crop'
+  },
+  {
+    id: '9',
+    slug: 'horizon-drone',
+    name: 'Horizon Drone',
+    description: 'Capture stunning aerial footage with a 4K camera and intelligent flight modes. Easy to fly, hard to put down.',
+    price: 799.00,
+    stock_quantity: 18,
+    category: 'Drones',
+    image: 'https://images.unsplash.com/photo-1507582020474-9a334a76191a?w=600&auto=format&fit=crop'
+  },
+  {
+    id: '10',
+    slug: 'nexus-vr-headset',
+    name: 'Nexus VR Headset',
+    description: 'Step into new worlds. A fully immersive virtual reality experience with high-resolution displays and intuitive controls.',
+    price: 399.00,
+    stock_quantity: 25,
+    category: 'VR',
+    image: 'https://images.unsplash.com/photo-1593508512255-86ab42a8e620?w=600&auto=format&fit=crop'
+  },
+  {
+    id: '11',
+    slug: 'aura-smart-home-hub',
+    name: 'Aura Smart Home Hub',
+    description: 'The central nervous system for your smart home. Control lights, thermostats, and more with your voice.',
+    price: 99.50,
+    stock_quantity: 70,
+    category: 'Smart Home',
+    image: 'https://images.unsplash.com/photo-1518452902641-744d9f922d56?w=600&auto=format&fit=crop'
+  },
+  {
+    id: '12',
+    slug: 'cinemax-pico-projector',
+    name: 'Cinemax Pico Projector',
+    description: 'A movie theater in your pocket. Project a massive 100-inch screen from a device that fits in your hand.',
+    price: 299.99,
+    stock_quantity: 33,
+    category: 'Projectors',
+    image: 'https://images.unsplash.com/photo-1628102490589-a2a4b87826a7?w=600&auto=format&fit=crop'
   },
 ];
 

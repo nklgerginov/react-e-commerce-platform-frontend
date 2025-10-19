@@ -4,6 +4,9 @@ import { Product } from '../types';
 import { useCart, useSearch } from '../contexts/AppContext';
 import { View } from '../App';
 import Spinner from '../components/Spinner';
+import PaginationControls from '../components/PaginationControls';
+
+const ITEMS_PER_PAGE = 6;
 
 interface ProductListPageProps {
   navigateTo: (view: View) => void;
@@ -43,6 +46,7 @@ const ProductListPage: React.FC<ProductListPageProps> = ({ navigateTo }) => {
   const { addToCart } = useCart();
   const { searchQuery, setSearchQuery } = useSearch();
   const [notification, setNotification] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -72,6 +76,18 @@ const ProductListPage: React.FC<ProductListPageProps> = ({ navigateTo }) => {
       product.description.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [products, searchQuery]);
+  
+  // Reset to page 1 when search query changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery]);
+
+  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+  const paginatedProducts = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredProducts.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [currentPage, filteredProducts]);
+
 
   if (loading) return <Spinner />;
   if (error) return <p className="text-center text-red-500">{error}</p>;
@@ -101,16 +117,25 @@ const ProductListPage: React.FC<ProductListPageProps> = ({ navigateTo }) => {
       )}
 
       {filteredProducts.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProducts.map(product => (
-            <ProductCard 
-                key={product.id} 
-                product={product} 
-                onAddToCart={handleAddToCart}
-                onViewProduct={(p) => navigateTo({ name: 'product', product: p })}
-            />
-            ))}
-        </div>
+        <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {paginatedProducts.map(product => (
+                <ProductCard 
+                    key={product.id} 
+                    product={product} 
+                    onAddToCart={handleAddToCart}
+                    onViewProduct={(p) => navigateTo({ name: 'product', product: p })}
+                />
+                ))}
+            </div>
+            {totalPages > 1 && (
+                <PaginationControls 
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={setCurrentPage}
+                />
+            )}
+        </>
       ) : (
         <div className="text-center py-16">
             <h2 className="text-2xl font-semibold text-gray-700 dark:text-gray-300">No Products Found</h2>
