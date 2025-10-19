@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
 import { CustomUser, CartItem, Product } from '../types';
 import api from '../services/api';
@@ -26,6 +25,15 @@ interface CartState {
 }
 
 const CartContext = createContext<CartState | undefined>(undefined);
+
+// Search Context
+interface SearchState {
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
+}
+
+const SearchContext = createContext<SearchState | undefined>(undefined);
+
 
 // Combined App Provider
 interface AppProviderProps {
@@ -136,10 +144,20 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     cartTotal
   };
 
+  // Search State Management
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const searchValue: SearchState = {
+    searchQuery,
+    setSearchQuery,
+  };
+
   return (
     <AuthContext.Provider value={authValue}>
       <CartContext.Provider value={cartValue}>
-        {children}
+        <SearchContext.Provider value={searchValue}>
+          {children}
+        </SearchContext.Provider>
       </CartContext.Provider>
     </AuthContext.Provider>
   );
@@ -160,4 +178,12 @@ export const useCart = (): CartState => {
     throw new Error('useCart must be used within an AppProvider');
   }
   return context;
+};
+
+export const useSearch = (): SearchState => {
+    const context = useContext(SearchContext);
+    if (context === undefined) {
+        throw new Error('useSearch must be used within an AppProvider');
+    }
+    return context;
 };

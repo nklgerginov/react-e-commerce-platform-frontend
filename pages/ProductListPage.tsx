@@ -1,8 +1,7 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import api from '../services/api';
 import { Product } from '../types';
-import { useCart } from '../contexts/AppContext';
+import { useCart, useSearch } from '../contexts/AppContext';
 import { View } from '../App';
 import Spinner from '../components/Spinner';
 
@@ -42,6 +41,7 @@ const ProductListPage: React.FC<ProductListPageProps> = ({ navigateTo }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { addToCart } = useCart();
+  const { searchQuery, setSearchQuery } = useSearch();
   const [notification, setNotification] = useState<string>('');
 
   useEffect(() => {
@@ -65,29 +65,60 @@ const ProductListPage: React.FC<ProductListPageProps> = ({ navigateTo }) => {
     setTimeout(() => setNotification(''), 3000);
   };
   
+  const filteredProducts = useMemo(() => {
+    if (!searchQuery) return products;
+    return products.filter(product =>
+      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.description.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [products, searchQuery]);
+
   if (loading) return <Spinner />;
   if (error) return <p className="text-center text-red-500">{error}</p>;
 
   return (
     <div>
-      <h1 className="text-4xl font-extrabold text-center mb-10 text-gray-900 dark:text-white">Our Products</h1>
+      <h1 className="text-4xl font-extrabold text-center mb-6 text-gray-900 dark:text-white">Our Products</h1>
       
+      {searchQuery && (
+        <div className="text-center mb-8 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+            <p className="text-lg">
+                Showing results for: <strong className="text-indigo-600 dark:text-indigo-400">"{searchQuery}"</strong>
+            </p>
+            <button
+                onClick={() => setSearchQuery('')}
+                className="mt-2 text-sm text-red-600 dark:text-red-400 hover:underline"
+            >
+                Clear Search
+            </button>
+        </div>
+      )}
+
       {notification && (
         <div className="fixed top-20 right-5 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg animate-fade-in-out">
           {notification}
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {products.map(product => (
-          <ProductCard 
-            key={product.id} 
-            product={product} 
-            onAddToCart={handleAddToCart}
-            onViewProduct={(p) => navigateTo({ name: 'product', product: p })}
-          />
-        ))}
-      </div>
+      {filteredProducts.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredProducts.map(product => (
+            <ProductCard 
+                key={product.id} 
+                product={product} 
+                onAddToCart={handleAddToCart}
+                onViewProduct={(p) => navigateTo({ name: 'product', product: p })}
+            />
+            ))}
+        </div>
+      ) : (
+        <div className="text-center py-16">
+            <h2 className="text-2xl font-semibold text-gray-700 dark:text-gray-300">No Products Found</h2>
+            <p className="text-gray-500 dark:text-gray-400 mt-2">
+                We couldn't find any products matching your search. Try a different term!
+            </p>
+        </div>
+      )}
     </div>
   );
 };
