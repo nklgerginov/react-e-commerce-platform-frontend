@@ -1,0 +1,5 @@
+{
+  "name": "React E-commerce Platform Frontend",
+  "description": "A frontend implementation for a modern, decoupled e-commerce platform built with React, TypeScript, and Tailwind CSS. It features a product catalog, shopping cart, mock user authentication, and an order history page, all consuming a mock API service.",
+  "requestFramePermissions": []
+}
