@@ -1,3 +1,4 @@
+
 import { Product, Order, CustomUser, CartItem, Review } from '../types';
 
 const mockProducts: Product[] = [
@@ -9,7 +10,7 @@ const mockProducts: Product[] = [
     price: 1499.99,
     stock_quantity: 15,
     category: 'Laptops',
-    image: 'https://source.unsplash.com/random/600x400/?futuristic,laptop&sig=1',
+    image: 'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=600&auto=format&fit=crop',
   },
   {
     id: '2',
@@ -19,7 +20,7 @@ const mockProducts: Product[] = [
     price: 899.00,
     stock_quantity: 30,
     category: 'Smartphones',
-    image: 'https://source.unsplash.com/random/600x400/?futuristic,phone&sig=2',
+    image: 'https://images.unsplash.com/photo-1580910051074-3eb694886505?w=600&auto=format&fit=crop',
   },
   {
     id: '3',
@@ -29,7 +30,7 @@ const mockProducts: Product[] = [
     price: 249.50,
     stock_quantity: 50,
     category: 'Audio',
-    image: 'https://source.unsplash.com/random/600x400/?futuristic,headphones&sig=3',
+    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&auto=format&fit=crop',
   },
   {
     id: '4',
@@ -39,7 +40,7 @@ const mockProducts: Product[] = [
     price: 199.99,
     stock_quantity: 42,
     category: 'Wearables',
-    image: 'https://source.unsplash.com/random/600x400/?futuristic,watch&sig=4',
+    image: 'https://images.unsplash.com/photo-1544117519-31a4b719223d?w=600&auto=format&fit=crop',
   },
     {
     id: '5',
@@ -49,7 +50,7 @@ const mockProducts: Product[] = [
     price: 650.00,
     stock_quantity: 22,
     category: 'Monitors',
-    image: 'https://source.unsplash.com/random/600x400/?futuristic,monitor&sig=5',
+    image: 'https://images.unsplash.com/photo-1616440347436-02e578f3ce1b?w=600&auto=format&fit=crop',
   },
   {
     id: '6',
@@ -59,7 +60,7 @@ const mockProducts: Product[] = [
     price: 129.99,
     stock_quantity: 60,
     category: 'Peripherals',
-    image: 'https://source.unsplash.com/random/600x400/?futuristic,keyboard&sig=6',
+    image: 'https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=600&auto=format&fit=crop',
   },
 ];
 
