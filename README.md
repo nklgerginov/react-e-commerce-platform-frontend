@@ -1,7 +1,3 @@
-<div align="center">
-   <img width="1182" height="862" alt="image" src="https://github.com/user-attachments/assets/3d8beb7a-2501-4559-b7f2-47cd10f6f5d5" />
-</div>
-
 # React E-commerce Platform Frontend
 
 A e-commerce storefront built with React, TypeScript, and Tailwind CSS. This project showcases frontend architecture, focusing on a clean user interface, responsive design, and a seamless user experience.
@@ -74,3 +70,13 @@ The codebase is organized logically for scalability and maintainability.
 - **Mobile-First:** The layout is responsive and optimized for mobile devices.
 - **Performance:** State management and component rendering are optimized to ensure a fast and smooth user experience.
 - **Accessibility:** UI elements include proper focus states and ARIA attributes where necessary to ensure usability for all users.
+
+## Preview
+
+<div align="center">
+    <img width="400" alt="image" src="https://github.com/user-attachments/assets/a652265c-9158-4012-8a1a-1e42a9072e9c" />
+    <img width="400" alt="image" src="https://github.com/user-attachments/assets/e841e49d-d0e6-4572-94da-67babb58a295" />
+    <img width="400" alt="image" src="https://github.com/user-attachments/assets/10ea9df8-1908-448c-b905-6d514827a4a6" />
+    <img width="400" alt="image" src="https://github.com/user-attachments/assets/d19a43fd-9a78-4b6d-bfc2-e774cddb3536" />
+    <img width="400" alt="image" src="https://github.com/user-attachments/assets/a3003be3-749e-4a9a-9644-89bc04431830" />
+</div>
