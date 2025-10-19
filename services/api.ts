@@ -1,5 +1,4 @@
-
-import { Product, Order, CustomUser, CartItem } from '../types';
+import { Product, Order, CustomUser, CartItem, Review } from '../types';
 
 const mockProducts: Product[] = [
   {
@@ -10,7 +9,7 @@ const mockProducts: Product[] = [
     price: 1499.99,
     stock_quantity: 15,
     category: 'Laptops',
-    image: 'https://picsum.photos/seed/laptop/600/400',
+    image: 'https://source.unsplash.com/random/600x400/?futuristic,laptop&sig=1',
   },
   {
     id: '2',
@@ -20,7 +19,7 @@ const mockProducts: Product[] = [
     price: 899.00,
     stock_quantity: 30,
     category: 'Smartphones',
-    image: 'https://picsum.photos/seed/phone/600/400',
+    image: 'https://source.unsplash.com/random/600x400/?futuristic,phone&sig=2',
   },
   {
     id: '3',
@@ -30,7 +29,7 @@ const mockProducts: Product[] = [
     price: 249.50,
     stock_quantity: 50,
     category: 'Audio',
-    image: 'https://picsum.photos/seed/headphones/600/400',
+    image: 'https://source.unsplash.com/random/600x400/?futuristic,headphones&sig=3',
   },
   {
     id: '4',
@@ -40,7 +39,7 @@ const mockProducts: Product[] = [
     price: 199.99,
     stock_quantity: 42,
     category: 'Wearables',
-    image: 'https://picsum.photos/seed/watch/600/400',
+    image: 'https://source.unsplash.com/random/600x400/?futuristic,watch&sig=4',
   },
     {
     id: '5',
@@ -50,7 +49,7 @@ const mockProducts: Product[] = [
     price: 650.00,
     stock_quantity: 22,
     category: 'Monitors',
-    image: 'https://picsum.photos/seed/monitor/600/400',
+    image: 'https://source.unsplash.com/random/600x400/?futuristic,monitor&sig=5',
   },
   {
     id: '6',
@@ -60,16 +59,32 @@ const mockProducts: Product[] = [
     price: 129.99,
     stock_quantity: 60,
     category: 'Peripherals',
-    image: 'https://picsum.photos/seed/keyboard/600/400',
+    image: 'https://source.unsplash.com/random/600x400/?futuristic,keyboard&sig=6',
   },
 ];
 
-const mockOrders: Order[] = [];
+let mockOrders: Order[] = [];
+
+// Use localStorage for reviews to make them persistent for the demo
+const getStoredReviews = (): Review[] => {
+    try {
+        const stored = localStorage.getItem('product_reviews');
+        return stored ? JSON.parse(stored) : [];
+    } catch (e) {
+        console.error("Failed to parse reviews from localStorage", e);
+        return [];
+    }
+};
+
+const setStoredReviews = (reviews: Review[]) => {
+    localStorage.setItem('product_reviews', JSON.stringify(reviews));
+};
+
 
 const createMockOrder = (cart: CartItem[]): Order => {
   const newOrder: Order = {
     id: `ORD-${Date.now()}`,
-    status: 'PROCESSING',
+    status: 'PENDING',
     total_price: cart.reduce((total, item) => total + item.price * item.quantity, 0),
     shipping_address: '123 Quantum Way, Cybertown, 98765',
     created_at: new Date().toISOString(),
@@ -114,6 +129,13 @@ const api = {
     if (!token) throw new Error('Authentication required');
     return mockOrders;
   },
+
+  fetchOrder: async (orderId: string, token: string): Promise<Order | undefined> => {
+    console.log(`API: Fetching order with id: ${orderId}`);
+    await new Promise(resolve => setTimeout(resolve, 300));
+    if (!token) throw new Error('Authentication required');
+    return mockOrders.find(o => o.id === orderId);
+  },
   
   createCheckoutSession: async (cart: CartItem[], token: string): Promise<{ sessionId: string; order: Order }> => {
     console.log('API: Creating checkout session...');
@@ -122,8 +144,47 @@ const api = {
     if (cart.length === 0) throw new Error('Cart is empty');
     
     const order = createMockOrder(cart);
+
+    // Simulate backend webhook processing
+    setTimeout(() => {
+        const orderIndex = mockOrders.findIndex(o => o.id === order.id);
+        if (orderIndex !== -1) {
+            mockOrders[orderIndex].status = 'PROCESSING';
+            console.log(`API: Order ${order.id} status updated to PROCESSING`);
+        }
+    }, 5000); // 5 seconds delay to simulate webhook
+    
     return { sessionId: `cs_test_${Date.now()}`, order };
-  }
+  },
+
+  fetchReviews: async (productId: string): Promise<Review[]> => {
+    console.log(`API: Fetching reviews for product: ${productId}`);
+    await new Promise(resolve => setTimeout(resolve, 400));
+    const allReviews = getStoredReviews();
+    return allReviews.filter(r => r.productId === productId).sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  },
+
+  submitReview: async (productId: string, reviewData: { rating: number; comment: string }, token: string, user: CustomUser): Promise<Review> => {
+    console.log(`API: Submitting review for product ${productId}`);
+    await new Promise(resolve => setTimeout(resolve, 600));
+    if (!token) throw new Error('Authentication required');
+
+    const newReview: Review = {
+      id: `REV-${Date.now()}`,
+      productId,
+      userId: user.id,
+      userName: user.name,
+      rating: reviewData.rating,
+      comment: reviewData.comment,
+      createdAt: new Date().toISOString(),
+    };
+    
+    const allReviews = getStoredReviews();
+    allReviews.push(newReview);
+    setStoredReviews(allReviews);
+
+    return newReview;
+  },
 };
 
 export default api;

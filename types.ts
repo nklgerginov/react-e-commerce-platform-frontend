@@ -24,7 +24,7 @@ export interface OrderItem {
 }
 
 export interface Order {
-  id: string;
+  id:string;
   status: 'PENDING' | 'PROCESSING' | 'SHIPPED' | 'DELIVERED';
   total_price: number;
   shipping_address: string;
@@ -34,4 +34,14 @@ export interface Order {
 
 export interface CartItem extends Product {
   quantity: number;
+}
+
+export interface Review {
+  id: string;
+  productId: string;
+  userId: string;
+  userName: string;
+  rating: number; // 1 to 5
+  comment: string;
+  createdAt: string;
 }
