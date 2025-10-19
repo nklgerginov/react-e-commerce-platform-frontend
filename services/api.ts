@@ -123,6 +123,14 @@ const mockProducts: Product[] = [
   },
 ];
 
+const mockFeaturedProducts: Product[] = [
+  mockProducts[7], // Odyssey Gaming Console
+  mockProducts[0], // Quantum Core Laptop
+  mockProducts[9], // Nexus VR Headset
+  mockProducts[2], // Aether Wireless Headphones
+  mockProducts[4], // Nova 4K Monitor
+];
+
 let mockOrders: Order[] = [];
 
 // Use localStorage for reviews to make them persistent for the demo
@@ -164,6 +172,12 @@ const api = {
     console.log('API: Fetching products...');
     await new Promise(resolve => setTimeout(resolve, 500));
     return mockProducts;
+  },
+
+  fetchFeaturedProducts: async (): Promise<Product[]> => {
+    console.log('API: Fetching featured products...');
+    await new Promise(resolve => setTimeout(resolve, 300));
+    return mockFeaturedProducts;
   },
 
   fetchProduct: async (slug: string): Promise<Product | undefined> => {

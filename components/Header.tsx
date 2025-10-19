@@ -21,7 +21,7 @@ const Header: React.FC<HeaderProps> = ({ navigateTo }) => {
 
   return (
     <header className="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-50">
-      <nav className="container mx-auto px-4 py-3 flex justify-between items-center gap-4">
+      <nav className="container mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-x-4 gap-y-3">
         <div 
           className="text-2xl font-bold text-indigo-600 dark:text-indigo-400 cursor-pointer whitespace-nowrap"
           onClick={() => navigateTo({ name: 'home' })}
@@ -29,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({ navigateTo }) => {
           NGCommerce
         </div>
 
-        <div className="flex-grow max-w-xl mx-4">
+        <div className="w-full order-last md:w-auto md:flex-1 md:order-none md:max-w-xl">
             <form onSubmit={handleSearchSubmit} className="relative">
                 <input
                     type="text"
